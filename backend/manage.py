@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from application.initializer import IncludeAPIRouter, engine
 from application.main.config import app_settings
-from application.main.models.article import Base
+from application.main.models.models import Base
 
 
 def get_application():
