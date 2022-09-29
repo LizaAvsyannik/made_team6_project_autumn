@@ -43,7 +43,7 @@ class ArticleReference(Base):
     __tablename__ = "article_reference"
 
     article_id = Column(Integer, ForeignKey(Article.article_id), primary_key=True)
-    ref_id = Column(Integer, ForeignKey(Article.article_id), primary_key=True)
+    ref_id = Column(Integer, ForeignKey(Article.article_id), nullable=True)
 
 
 class Keyword(Base):
