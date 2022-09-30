@@ -1,3 +1,9 @@
+
+
+# NO JYPYTER NOTEBOOKS inbackend
+
+backend/*.ipynb
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -78,6 +84,7 @@ target/
 
 # Jupyter Notebook
 .ipynb_checkpoints
+*/.ipynb_checkpoints
 
 # IPython
 profile_default/
@@ -102,6 +109,7 @@ celerybeat.pid
 
 # SageMath parsed files
 *.sage.py
+
 
 # Environments
 .env
@@ -129,3 +137,4 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+/db_container/test_SQLAlchemy.ipynb

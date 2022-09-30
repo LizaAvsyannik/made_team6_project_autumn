@@ -16,15 +16,16 @@ class IncludeAPIRouter(object):
 
 
 engine = create_engine(
-    Config.SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False}
+    Config.SQLALCHEMY_DATABASE_URL,
 )
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 Base = declarative_base()
 
 
-def get_db_and_base():
 
+def get_db_and_base():
+    Base.metadata.create_all(engine)
     db = SessionLocal()
     try:
         yield db
