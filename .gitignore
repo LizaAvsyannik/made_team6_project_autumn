@@ -1,7 +1,7 @@
 
 
 # NO JYPYTER NOTEBOOKS inbackend
-
+db_container/*.ipynb
 backend/*.ipynb
 
 # Byte-compiled / optimized / DLL files
