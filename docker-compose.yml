@@ -7,6 +7,11 @@ services:
     build: backend
     ports:
       - "8000:8000"
+      - "8888:8888"
     depends_on:
       - db_container
+    volumes:
+      - "/datasets:/backend/datasets"
+      - "/saved_notebooks:/backend/saved_notebooks"
+      - "/ignored_notebooks:/backend/ignored_notebooks"
 
