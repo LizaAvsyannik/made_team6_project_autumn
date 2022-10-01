@@ -13,6 +13,8 @@ RUN pip install black isort
 
 
 COPY  . .
+RUN rm Dockerfile
+RUN rm requirements.txt
 
 ENV JUPYTER_ENABLE_LAB=yes
 ENV JUPYTER_TOKEN=docker

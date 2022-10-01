@@ -2,7 +2,8 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from application.initializer import IncludeAPIRouter, engine
-from application.main.config import app_settings
+from application.main.config import app_settings, Config
+from application.main.db_utils.shortcuts import drop_all_tables, fill_db
 from application.main.models.models import Base
 
 
@@ -22,6 +23,7 @@ def get_application():
 
 app = get_application()
 Base.metadata.create_all(bind=engine)
+
 
 
 @app.on_event("shutdown")
