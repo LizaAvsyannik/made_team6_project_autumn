@@ -17,7 +17,6 @@ logger.info('This is test')
 if session.query(Article).first() is None:
     session.close()
     print("Creating database...")
-    drop_all_tables()
     fill_db(Config.DB_SOURCE_FILE)
 else:
     print("Database already exists")

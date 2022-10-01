@@ -1,8 +1,5 @@
 #!/bin/bash
 
-
-
-
 # download data
 cd datasets
 
@@ -25,12 +22,17 @@ fi
 
 cd ..
 
-# launch script to fill database
-echo "Filling database with data..."
-python fill_db.py
 
+echo "Filling database with data..."
+python backend/fill_db.py
+
+
+# shellcheck disable=SC2164
+cd backend
 #launch application
 uvicorn manage:app --reload --host 0.0.0.0 --port 8000 &
+cd ..
+
 
 # launch jupyter lab
 jupyter lab --no-browser --ip=0.0.0.0 --port=8888 --allow-root &

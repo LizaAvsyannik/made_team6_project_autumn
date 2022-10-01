@@ -3,14 +3,21 @@ services:
     build: db_container
     ports:
       - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
   backend:
     build: backend
     ports:
       - "8000:8000"
       - "8888:8888"
     depends_on:
-      - db_container
+      db_container:
+        condition: service_healthy
     volumes:
-      - "/datasets/:/backend/datasets"
-      # - "/saved_notebooks/:/backend/saved_notebooks"
-      # - "/ignored_notebooks/:/backend/ignored_notebooks"
+      - "./backend:/PROJECT_ROOT/backend"
+      - "./datasets:/PROJECT_ROOT/datasets"
+      - "./saved_notebooks:/PROJECT_ROOT/saved_notebooks"
+      #- "./ignored_notebooks:/backend/ignored_notebooks"
