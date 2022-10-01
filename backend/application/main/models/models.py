@@ -41,7 +41,7 @@ class AuthorInArticle(Base):
 class Article(Base):
     __tablename__ = "article"
 
-    id = Column(String, primary_key=True, index = True)
+    id = Column(String, primary_key=True, index=True)
     title = Column(String, nullable=True)
     year = Column(Integer, nullable=True)
     venue_id = Column(String, ForeignKey(Venue.venue_id))
@@ -53,7 +53,7 @@ class Article(Base):
     page_end = Column(String, nullable=True)
 
     authors = relationship(
-        "Author", secondary=AuthorInArticle.__table__
+        "Author", secondary=AuthorInArticle.__table__, back_populates='articles'
     )
 
 
@@ -66,7 +66,7 @@ class Author(Base):
     email = Column(String, nullable=True)
 
     articles = relationship(
-        "Article", secondary=AuthorInArticle.__table__
+        "Article", secondary=AuthorInArticle.__table__, back_populates='authors'
     )
 
 #

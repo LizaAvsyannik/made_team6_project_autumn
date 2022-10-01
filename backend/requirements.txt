@@ -13,3 +13,10 @@ typing_extensions==4.3.0
 uvicorn==0.18.3
 psycopg2-binary
 tqdm~=4.60.0
+pandas
+numpy
+scipy
+scikit-learn
+matplotlib
+seaborn
+gdown

@@ -1,8 +1,10 @@
+# dont save files in datasets
+datasets/*
 
-
-# NO JYPYTER NOTEBOOKS inbackend
-
-backend/*.ipynb
+# NO JYPYTER NOTEBOOKS in backend, datasets and ignored_notebooks
+db_container/*.ipynb
+backend/**.ipynb
+ignored_notebooks/*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
