@@ -42,11 +42,11 @@ class Article(Base):
     id = Column(String, primary_key=True, index=True)
     title = Column(String, nullable=True)
     year = Column(Integer, nullable=True)
-    venue_id = Column(String, ForeignKey(Venue.venue_id))
+    venue_id = Column(String, ForeignKey(Venue.venue_id), nullable=True)
     n_citation = Column(Integer, default=0)
     abstract = Column(String, nullable=True)
     url = Column(String, nullable=True)
-    publisher_id = Column(String, ForeignKey(Publisher.publisher_id))
+    publisher_id = Column(String, ForeignKey(Publisher.publisher_id), nullable=True)
     page_start = Column(String, nullable=True)
     page_end = Column(String, nullable=True)
 

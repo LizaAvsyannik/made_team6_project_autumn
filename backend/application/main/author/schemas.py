@@ -20,4 +20,4 @@ class AuthorPatchSchema(BaseModel):
 
 
 class AuthorSListSchema(BaseModel):
-    articles: Union[List[AuthorSchema], None] = None
+    authors: Union[List[AuthorSchema], None] = None

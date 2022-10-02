@@ -1,6 +1,5 @@
 from sqlalchemy import MetaData
-
-from application.initializer import engine
+from application.initializer import engine, get_db_and_base
 from sqlalchemy.exc import IntegrityError
 from tqdm import tqdm
 
