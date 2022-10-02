@@ -1,19 +1,12 @@
 from fastapi.routing import APIRouter
 from .schemas import AuthorSchema, AuthorSListSchema, AuthorPatchSchema
-from .utils import db_create_author, db_update_author, db_delete_author
+from .utils import db_create_author, db_update_author
 from application.main.models.models import Author
 from typing import Union
-from application.main.utils import db_get_one_or_none, raise_error, db_get_all
+from application.main.utils import db_get_one_or_none, raise_error, db_get_all, \
+    db_delete_item
 from fastapi import Path
-from application.initializer import SessionLocal, db
-
-
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
+from application.initializer import db
 
 
 router = APIRouter(prefix='/author')
@@ -61,5 +54,5 @@ async def delete_author(author_id: str = Path(title="The ID of the author to del
     item = db_get_one_or_none(db, Author, 'id', author_id)
     if item is None:
         raise_error(404, f'Author with id={author_id} not found')
-    item = db_delete_author(db, item)
+    item = db_delete_item(db, item)
     return item

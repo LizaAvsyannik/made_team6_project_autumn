@@ -16,3 +16,9 @@ def db_get_list(db, model, field, value):
 
 def db_get_all(db, model):
     return db.query(model).all()
+
+
+def db_delete_item(db, item):
+    db.delete(item)
+    db.commit()
+    return item
