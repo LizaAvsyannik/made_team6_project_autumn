@@ -3,6 +3,7 @@
 # download data
 cd datasets
 
+
 FILE=004_of_V13.csv
 if [ -f "$FILE" ]; then
     echo "$FILE exists."
