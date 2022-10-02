@@ -30,3 +30,6 @@ def get_db_and_base():
         yield db
     finally:
         db.close()
+
+
+db = next(get_db_and_base())

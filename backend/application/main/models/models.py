@@ -1,9 +1,7 @@
 from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, Table
 from sqlalchemy.orm import relationship
 
-from application.initializer import get_db_and_base, Base
-
-db = get_db_and_base()
+from application.initializer import Base
 
 
 class Venue(Base):

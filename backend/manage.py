@@ -25,7 +25,6 @@ app = get_application()
 Base.metadata.create_all(bind=engine)
 
 
-
 @app.on_event("shutdown")
 async def app_shutdown():
     # on app shutdown do something probably close some connections or trigger some event

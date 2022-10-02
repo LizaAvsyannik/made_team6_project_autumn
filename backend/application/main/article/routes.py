@@ -2,11 +2,9 @@ from fastapi.responses import JSONResponse
 from fastapi.routing import APIRouter
 from fastapi import Path
 from typing import Union
-from application.initializer import get_db_and_base
 from .schemas import ArticleSchema, ArticleListSchema
 # from backend.application.initializer import (db_instance, logger_instance)
 
-db = get_db_and_base()
 router = APIRouter(prefix='/article')
 # logger = logger_instance.get_logger(__name__)
 
