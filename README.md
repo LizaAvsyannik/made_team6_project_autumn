@@ -18,8 +18,9 @@
 - Перейти по адресу http://localhost:8000/docs
 
 ### Как запустить нагрузочное тестирование
-- Запустить команду 
+- Запустить команды
 ```
+pip3 install locust
 locust -f backend/application/test/stress_test.py
 ```
 - Перейти по адресу http://localhost:8089
