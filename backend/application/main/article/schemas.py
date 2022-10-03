@@ -1,5 +1,5 @@
 from typing import Union, List
-
+from application.main.author.schemas import AuthorSchema
 from pydantic import BaseModel
 
 
@@ -14,6 +14,8 @@ class ArticleSchema(BaseModel):
     publisher_id: Union[str, None] = None
     page_start: Union[str, None] = None
     page_end: Union[str, None] = None
+
+    authors: List[AuthorSchema] = None
 
     class Config:
         orm_mode = True

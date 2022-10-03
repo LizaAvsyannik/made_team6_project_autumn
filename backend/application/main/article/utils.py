@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from application.main.models.models import Article, Venue, Publisher
+from application.main.models.models import Article, Venue, Publisher, Author
 from .schemas import ArticleSchema
 from application.main.utils import db_get_one_or_none, raise_error
 
@@ -8,10 +8,10 @@ def db_create_article(db: Session, article: ArticleSchema):
     id_v = article.venue_id
     id_p = article.publisher_id
     venue = db_get_one_or_none(db, Venue, 'venue_id', id_v)
-    if venue is None:
+    if venue is None and id_v is not None:
         raise_error(404, f'Venue with id={id_v} not found')
     publisher = db_get_one_or_none(db, Publisher, 'publisher_id', id_p)
-    if publisher is None:
+    if publisher is None and id_p is not None:
         raise_error(404, f'Publisher with id={id_p} not found')
     item = Article(
         id=article.id,
@@ -25,6 +25,18 @@ def db_create_article(db: Session, article: ArticleSchema):
         page_start=article.page_start,
         page_end=article.page_end
     )
+    for author in article.authors:
+        new_author = db_get_one_or_none(db, Author, 'id', author.id)
+        if new_author is None:
+            new_item = Author(
+                id=author.id,
+                name=author.name,
+                bio=author.bio,
+                email=author.email
+            )
+            item.authors.append(new_item)
+        else:
+            item.authors.append(new_author)
     db.add(item)
     db.commit()
     db.refresh(item)
