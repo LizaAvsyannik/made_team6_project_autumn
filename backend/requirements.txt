@@ -20,3 +20,4 @@ scikit-learn
 matplotlib
 seaborn
 gdown
+locust==2.12.1
