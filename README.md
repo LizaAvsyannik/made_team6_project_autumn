@@ -20,7 +20,7 @@
 ### Как запустить нагрузочное тестирование
 - Запустить команду 
 ```
-locust -f locust -f backend/application/test/stress_test.py
+locust -f backend/application/test/stress_test.py
 ```
 - Перейти по адресу http://localhost:8089
 - Ввести число пользователей, частоту и адрес http://localhost:8000/api
