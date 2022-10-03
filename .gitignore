@@ -1,3 +1,11 @@
+# dont save files in datasets
+datasets/*
+
+# NO JYPYTER NOTEBOOKS in backend, datasets and ignored_notebooks
+db_container/*.ipynb
+backend/**.ipynb
+ignored_notebooks/*
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -26,7 +34,7 @@ share/python-wheels/
 .installed.cfg
 *.egg
 MANIFEST
-
+.idea/
 # PyInstaller
 #  Usually these files are written by a python script from a template
 #  before PyInstaller builds the exe, so as to inject date/other infos into it.
@@ -60,6 +68,8 @@ coverage.xml
 local_settings.py
 db.sqlite3
 db.sqlite3-journal
+*.db
+*.sqlite
 
 # Flask stuff:
 instance/
@@ -76,6 +86,7 @@ target/
 
 # Jupyter Notebook
 .ipynb_checkpoints
+*/.ipynb_checkpoints
 
 # IPython
 profile_default/
@@ -100,6 +111,7 @@ celerybeat.pid
 
 # SageMath parsed files
 *.sage.py
+
 
 # Environments
 .env
@@ -127,3 +139,4 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+/db_container/test_SQLAlchemy.ipynb
