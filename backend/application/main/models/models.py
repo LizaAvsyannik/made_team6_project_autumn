@@ -1,4 +1,4 @@
-from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, Table
+from sqlalchemy import Column, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
 
 from application.initializer import Base
@@ -28,12 +28,63 @@ class AuthorInArticle(Base):
     article_id = Column(String, ForeignKey('article.id'), primary_key=True)
 
 
-# publications_authors = Table(
-#     "author_in_article",
-#     Base.metadata,
-#     Column("article", ForeignKey("article.article_id"), primary_key=True),
-#     Column("author", ForeignKey("author.id"), primary_key=True),
-# )
+class Author(Base):
+    __tablename__ = "author"
+
+    id = Column(String, primary_key=True, index=True)
+    name = Column(String, nullable=True)
+    bio = Column(String, nullable=True)
+    email = Column(String, nullable=True)
+
+    articles = relationship(
+        "Article", secondary=AuthorInArticle.__table__, back_populates='authors'
+    )
+
+
+class ArticleReference(Base):
+    __tablename__ = "article_reference"
+
+    article_id = Column(Integer, ForeignKey('article.id'), primary_key=True)
+    ref_id = Column(Integer, ForeignKey('article.id'), nullable=True)
+
+
+class KeywordInArticle(Base):
+    __tablename__ = "keyword_in_article"
+
+    keyword_id = Column(Integer, ForeignKey('keyword.keyword_id'), primary_key=True)
+    article_id = Column(Integer, ForeignKey('article.id'), primary_key=True)
+
+
+class FosInArticle(Base):
+    __tablename__ = "fos_in_article"
+    fos_id = Column(Integer, ForeignKey('field_of_study.fos_id'), primary_key=True)
+    article_id = Column(Integer, ForeignKey('article.id'), primary_key=True)
+
+
+class Keyword(Base):
+    __tablename__ = "keyword"
+
+    keyword_id = Column(Integer, primary_key=True, autoincrement=True)
+    name = Column(String, nullable=False, unique=True, index=True)
+    articles = relationship(
+        "Article", secondary=KeywordInArticle.__table__, back_populates='keywords'
+    )
+
+
+class FieldOfScience(Base):
+    __tablename__ = "field_of_study"
+    fos_id = Column(Integer, primary_key=True, autoincrement=True)
+    name = Column(String, nullable=False, unique=True, index=True)
+    articles = relationship(
+        "Article", secondary=FosInArticle.__table__, back_populates='fos'
+    )
+
+
+# class Organisation(Base):
+#     __tablename__ = "organisation"
+#
+#     organisation_id = Column(Integer, primary_key=True, index=True)
+#     name = Column(String, nullable=False, unique=True)
 
 
 class Article(Base):
@@ -53,61 +104,9 @@ class Article(Base):
     authors = relationship(
         "Author", secondary=AuthorInArticle.__table__, back_populates='articles'
     )
-
-
-class Author(Base):
-    __tablename__ = "author"
-
-    id = Column(String, primary_key=True, index=True)
-    name = Column(String, nullable=True)
-    bio = Column(String, nullable=True)
-    email = Column(String, nullable=True)
-
-    articles = relationship(
-        "Article", secondary=AuthorInArticle.__table__, back_populates='authors'
+    fos = relationship(
+        "FieldOfScience", secondary=FosInArticle.__table__, back_populates='articles'
     )
-
-#
-#
-# class ArticleReference(Base):
-#     __tablename__ = "article_reference"
-#
-#     article_id = Column(Integer, ForeignKey(Article.article_id), primary_key=True)
-#     ref_id = Column(Integer, ForeignKey(Article.article_id), nullable=True)
-
-#
-# class Keyword(Base):
-#     __tablename__ = "keyword"
-#
-#     keyword_id = Column(Integer, primary_key=True, index=True)
-#     name = Column(String, nullable=False, unique=True)
-#
-#
-# class FieldOfScience(Base):
-#     __tablename__ = "field_of_study"
-#
-#     fos_id = Column(Integer, primary_key=True, index=True)
-#     name = Column(String, nullable=False, unique=True)
-#
-#
-# class KeywordInArticle(Base):
-#     __tablename__ = "keyword_in_article"
-#
-#     keyword_id = Column(Integer, ForeignKey(Keyword.keyword_id), primary_key=True)
-#     article_id = Column(Integer, ForeignKey(Article.article_id), primary_key=True)
-#
-#
-# class FosInArticle(Base):
-#     __tablename__ = "fos_in_article"
-#
-#     fos_id = Column(Integer, ForeignKey(FieldOfScience.fos_id), primary_key=True)
-#     article_id = Column(Integer, ForeignKey(Article.article_id), primary_key=True)
-#
-#
-# class Organisation(Base):
-#     __tablename__ = "organisation"
-#
-#     organisation_id = Column(Integer, primary_key=True, index=True)
-#     name = Column(String, nullable=False, unique=True)
-
-#
+    keywords = relationship(
+        "Keyword", secondary=KeywordInArticle.__table__, back_populates='articles'
+    )
