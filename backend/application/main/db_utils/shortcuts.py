@@ -1,10 +1,11 @@
 from sqlalchemy import MetaData
 from application.initializer import engine, get_db_and_base
-from sqlalchemy.exc import IntegrityError
 from tqdm import tqdm
 
-from application.main.db_utils.json_reader import value_or_None, publications_reader
-from application.main.models.models import *
+from application.main.db_utils.json_reader import value_or_None, \
+    publications_reader
+from application.main.models.models import Author, AuthorInArticle, \
+    Article, Venue, Publisher
 
 
 def drop_all_tables():
@@ -42,7 +43,7 @@ def fill_db(filename: str, limit=10000):
         # add authors
         authors_dict = value_or_None(entry, "authors")
 
-        if not authors_dict is None:
+        if authors_dict is not None:
             authors = []
             for author_entry in authors_dict:
                 try:
@@ -59,7 +60,12 @@ def fill_db(filename: str, limit=10000):
                     if session.query(Author).get(author_id) is None:
                         authors.append(author)
                     else:
-                        session.add(AuthorInArticle(author_id=author_id, article_id=article.id))
+                        session.add(
+                            AuthorInArticle(
+                                author_id=author_id,
+                                article_id=article.id
+                            )
+                        )
                         session.flush()
                 except Exception as ex:
                     print(ex)

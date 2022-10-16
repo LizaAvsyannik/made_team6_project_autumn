@@ -1,5 +1,4 @@
 from fastapi import HTTPException
-from sqlalchemy.orm import Session
 
 
 def db_get_one_or_none(db, model, field, value):

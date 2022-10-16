@@ -4,11 +4,7 @@ from .schemas import UserSchemaInput
 
 
 def db_create_user(db: Session, user: UserSchemaInput):
-    item = User(
-        name=user.name,
-        email=user.email,
-        password=user.password
-    )
+    item = User(name=user.name, email=user.email, password=user.password)
     db.add(item)
     db.commit()
     db.refresh(item)
