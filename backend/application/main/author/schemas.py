@@ -19,5 +19,5 @@ class AuthorPatchSchema(BaseModel):
     email: Union[str, None] = None
 
 
-class AuthorSListSchema(BaseModel):
+class AuthorsListSchema(BaseModel):
     authors: Union[List[AuthorSchema], None] = None

@@ -2,6 +2,7 @@ from sqlalchemy import Column, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
 
 from application.initializer import Base
+from application.main.user import hashing
 
 
 class Venue(Base):
@@ -110,3 +111,20 @@ class Article(Base):
     keywords = relationship(
         "Keyword", secondary=KeywordInArticle.__table__, back_populates='articles'
     )
+
+
+class User(Base):
+    __tablename__ = "user"
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    name = Column(String(50), nullable=True)
+    email = Column(String(255), unique=True)
+    password = Column(String(255))
+
+    def __init__(self, name, email, password, *args, **kwargs):
+        self.name = name
+        self.email = email
+        self.password = hashing.get_password_hash(password)
+
+    def check_password(self, password):
+        return hashing.verify_password(self.password, password)
