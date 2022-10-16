@@ -17,12 +17,12 @@ def db_create_author(db: Session, author: AuthorSchema):
 
 
 def db_update_author(db: Session, item: Author, new_data: dict):
-    if 'email' in new_data:
-        item.email = new_data['email']
-    if 'bio' in new_data:
-        item.bio = new_data['bio']
-    if 'name' in new_data:
-        item.name = new_data['name']
+    if "email" in new_data:
+        item.email = new_data["email"]
+    if "bio" in new_data:
+        item.bio = new_data["bio"]
+    if "name" in new_data:
+        item.name = new_data["name"]
     db.commit()
     db.refresh(item)
     return item

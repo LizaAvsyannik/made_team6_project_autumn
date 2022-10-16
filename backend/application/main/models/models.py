@@ -25,8 +25,8 @@ class Publisher(Base):
 
 class AuthorInArticle(Base):
     __tablename__ = "author_in_article"
-    author_id = Column(String, ForeignKey('author.id'), primary_key=True)
-    article_id = Column(String, ForeignKey('article.id'), primary_key=True)
+    author_id = Column(String, ForeignKey("author.id"), primary_key=True)
+    article_id = Column(String, ForeignKey("article.id"), primary_key=True)
 
 
 class Author(Base):
@@ -38,28 +38,38 @@ class Author(Base):
     email = Column(String, nullable=True)
 
     articles = relationship(
-        "Article", secondary=AuthorInArticle.__table__, back_populates='authors'
+        "Article",
+        secondary=AuthorInArticle.__table__,
+        back_populates="authors"
     )
 
 
 class ArticleReference(Base):
     __tablename__ = "article_reference"
 
-    article_id = Column(String, ForeignKey('article.id'), primary_key=True)
-    ref_id = Column(String, ForeignKey('article.id'), nullable=True)
+    article_id = Column(String, ForeignKey("article.id"), primary_key=True)
+    ref_id = Column(String, ForeignKey("article.id"), nullable=True)
 
 
 class KeywordInArticle(Base):
     __tablename__ = "keyword_in_article"
 
-    keyword_id = Column(Integer, ForeignKey('keyword.keyword_id'), primary_key=True)
-    article_id = Column(String, ForeignKey('article.id'), primary_key=True)
+    keyword_id = Column(
+        Integer,
+        ForeignKey("keyword.keyword_id"),
+        primary_key=True
+    )
+    article_id = Column(String, ForeignKey("article.id"), primary_key=True)
 
 
 class FosInArticle(Base):
     __tablename__ = "fos_in_article"
-    fos_id = Column(Integer, ForeignKey('field_of_study.fos_id'), primary_key=True)
-    article_id = Column(String, ForeignKey('article.id'), primary_key=True)
+    fos_id = Column(
+        Integer,
+        ForeignKey("field_of_study.fos_id"),
+        primary_key=True
+    )
+    article_id = Column(String, ForeignKey("article.id"), primary_key=True)
 
 
 class Keyword(Base):
@@ -68,7 +78,9 @@ class Keyword(Base):
     keyword_id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String, nullable=False, unique=True, index=True)
     articles = relationship(
-        "Article", secondary=KeywordInArticle.__table__, back_populates='keywords'
+        "Article",
+        secondary=KeywordInArticle.__table__,
+        back_populates="keywords"
     )
 
 
@@ -77,7 +89,9 @@ class FieldOfScience(Base):
     fos_id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String, nullable=False, unique=True, index=True)
     articles = relationship(
-        "Article", secondary=FosInArticle.__table__, back_populates='fos'
+        "Article",
+        secondary=FosInArticle.__table__,
+        back_populates="fos"
     )
 
 
@@ -98,18 +112,28 @@ class Article(Base):
     n_citation = Column(Integer, default=0)
     abstract = Column(String, nullable=True)
     url = Column(String, nullable=True)
-    publisher_id = Column(String, ForeignKey(Publisher.publisher_id), nullable=True)
+    publisher_id = Column(
+        String,
+        ForeignKey(Publisher.publisher_id),
+        nullable=True
+    )
     page_start = Column(String, nullable=True)
     page_end = Column(String, nullable=True)
 
     authors = relationship(
-        "Author", secondary=AuthorInArticle.__table__, back_populates='articles'
+        "Author",
+        secondary=AuthorInArticle.__table__,
+        back_populates="articles"
     )
     fos = relationship(
-        "FieldOfScience", secondary=FosInArticle.__table__, back_populates='articles'
+        "FieldOfScience",
+        secondary=FosInArticle.__table__,
+        back_populates="articles"
     )
     keywords = relationship(
-        "Keyword", secondary=KeywordInArticle.__table__, back_populates='articles'
+        "Keyword",
+        secondary=KeywordInArticle.__table__,
+        back_populates="articles"
     )
 
 

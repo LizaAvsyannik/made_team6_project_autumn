@@ -8,17 +8,17 @@ def publications_reader(file, limit=None):
         limit = math.inf
     publications_read = 0
 
-    with open(file, 'r') as json_file:
+    with open(file, "r") as json_file:
         line = json_file.readline()
         lines = []
-        while publications_read <= limit and (not line.startswith(']')):
+        while publications_read <= limit and (not line.startswith("]")):
             line = json_file.readline()
             lines.append(line)
-            if line.startswith('},'):
-                lines[-1] = '}'
+            if line.startswith("},"):
+                lines[-1] = "}"
                 json_string = "".join(lines)
                 lines.clear()
-                json_string = re.sub('NumberInt\((\d*)\)', r"\1", json_string)
+                json_string = re.sub(r"NumberInt\((\d*)\)", r"\1", json_string)
                 publication = json.loads(json_string)
                 publications_read += 1
                 yield publication
