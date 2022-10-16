@@ -2,6 +2,7 @@ from sqlalchemy import Column, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
 
 from application.initializer import Base
+from application.main.user import hashing
 
 
 class Venue(Base):
@@ -44,21 +45,21 @@ class Author(Base):
 class ArticleReference(Base):
     __tablename__ = "article_reference"
 
-    article_id = Column(Integer, ForeignKey('article.id'), primary_key=True)
-    ref_id = Column(Integer, ForeignKey('article.id'), nullable=True)
+    article_id = Column(String, ForeignKey('article.id'), primary_key=True)
+    ref_id = Column(String, ForeignKey('article.id'), nullable=True)
 
 
 class KeywordInArticle(Base):
     __tablename__ = "keyword_in_article"
 
     keyword_id = Column(Integer, ForeignKey('keyword.keyword_id'), primary_key=True)
-    article_id = Column(Integer, ForeignKey('article.id'), primary_key=True)
+    article_id = Column(String, ForeignKey('article.id'), primary_key=True)
 
 
 class FosInArticle(Base):
     __tablename__ = "fos_in_article"
     fos_id = Column(Integer, ForeignKey('field_of_study.fos_id'), primary_key=True)
-    article_id = Column(Integer, ForeignKey('article.id'), primary_key=True)
+    article_id = Column(String, ForeignKey('article.id'), primary_key=True)
 
 
 class Keyword(Base):
@@ -110,3 +111,20 @@ class Article(Base):
     keywords = relationship(
         "Keyword", secondary=KeywordInArticle.__table__, back_populates='articles'
     )
+
+
+class User(Base):
+    __tablename__ = "user"
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    name = Column(String(50), nullable=True)
+    email = Column(String(255), unique=True)
+    password = Column(String(255))
+
+    def __init__(self, name, email, password, *args, **kwargs):
+        self.name = name
+        self.email = email
+        self.password = hashing.get_password_hash(password)
+
+    def check_password(self, password):
+        return hashing.verify_password(self.password, password)
