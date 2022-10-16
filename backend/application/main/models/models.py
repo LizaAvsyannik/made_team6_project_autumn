@@ -45,21 +45,21 @@ class Author(Base):
 class ArticleReference(Base):
     __tablename__ = "article_reference"
 
-    article_id = Column(Integer, ForeignKey('article.id'), primary_key=True)
-    ref_id = Column(Integer, ForeignKey('article.id'), nullable=True)
+    article_id = Column(String, ForeignKey('article.id'), primary_key=True)
+    ref_id = Column(String, ForeignKey('article.id'), nullable=True)
 
 
 class KeywordInArticle(Base):
     __tablename__ = "keyword_in_article"
 
     keyword_id = Column(Integer, ForeignKey('keyword.keyword_id'), primary_key=True)
-    article_id = Column(Integer, ForeignKey('article.id'), primary_key=True)
+    article_id = Column(String, ForeignKey('article.id'), primary_key=True)
 
 
 class FosInArticle(Base):
     __tablename__ = "fos_in_article"
     fos_id = Column(Integer, ForeignKey('field_of_study.fos_id'), primary_key=True)
-    article_id = Column(Integer, ForeignKey('article.id'), primary_key=True)
+    article_id = Column(String, ForeignKey('article.id'), primary_key=True)
 
 
 class Keyword(Base):
