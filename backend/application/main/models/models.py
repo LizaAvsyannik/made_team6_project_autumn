@@ -11,16 +11,10 @@ class Venue(Base):
     venue_id = Column(String, primary_key=True, index=True)
     name = Column(String, nullable=False)
 
-
-class Publisher(Base):
-    __tablename__ = "publisher"
-
-    publisher_id = Column(String, primary_key=True, index=True)
-    issn = Column(String, nullable=True)
-    isbn = Column(String, nullable=True)
-    doi = Column(String, nullable=True)
-    language = Column(String, nullable=True)
-    volume = Column(String, nullable=True)
+    articles = relationship(
+        "Article",
+        back_populates="venue"
+    )
 
 
 class AuthorInArticle(Base):
@@ -112,13 +106,10 @@ class Article(Base):
     n_citation = Column(Integer, default=0)
     abstract = Column(String, nullable=True)
     url = Column(String, nullable=True)
-    publisher_id = Column(
-        String,
-        ForeignKey(Publisher.publisher_id),
-        nullable=True
-    )
+
     page_start = Column(String, nullable=True)
     page_end = Column(String, nullable=True)
+    topic = Column(String, nullable=True)
 
     authors = relationship(
         "Author",
@@ -133,6 +124,10 @@ class Article(Base):
     keywords = relationship(
         "Keyword",
         secondary=KeywordInArticle.__table__,
+        back_populates="articles"
+    )
+    venue = relationship(
+        "Venue",
         back_populates="articles"
     )
 

@@ -7,14 +7,8 @@ class VenueSchema(BaseModel):
     venue_id: str
     name: Union[str, None]
 
-
-class PublisherSchema(BaseModel):
-    publisher_id: str
-    issn: Union[str, None]
-    isbn: Union[str, None]
-    doi: Union[str, None]
-    language: Union[str, None]
-    volume: Union[str, None]
+    class Config:
+        orm_mode = True
 
 
 class ArticleSchema(BaseModel):
@@ -25,9 +19,9 @@ class ArticleSchema(BaseModel):
     n_citation: Union[int, None] = None
     abstract: Union[str, None] = None
     url: Union[str, None] = None
-    publisher: Union[PublisherSchema, None] = None
     page_start: Union[str, None] = None
     page_end: Union[str, None] = None
+    topic: Union[str, None] = None
 
     authors: List[AuthorSchema] = None
     fos: Union[List[str], None] = None
@@ -52,9 +46,9 @@ class ArticleOutSchema(BaseModel):
     n_citation: Union[int, None] = None
     abstract: Union[str, None] = None
     url: Union[str, None] = None
-    publisher: Union[PublisherSchema, None] = None
     page_start: Union[str, None] = None
     page_end: Union[str, None] = None
+    topic: Union[str, None] = None
 
     authors: List[AuthorSchema] = None
     fos: Union[List[ParsedFOSAndKeywordSchema], None] = None
@@ -71,10 +65,13 @@ class ArticlePatchSchema(BaseModel):
     n_citation: Union[int, None] = None
     abstract: Union[str, None] = None
     url: Union[str, None] = None
-    publisher_id: Union[str, None] = None
     page_start: Union[str, None] = None
     page_end: Union[str, None] = None
+    topic: Union[str, None] = None
 
 
 class ArticleListSchema(BaseModel):
-    articles: Union[List[ArticleSchema], None] = None
+    articles: Union[List[ArticleOutSchema], None] = None
+
+    class Config:
+        orm_mode = True

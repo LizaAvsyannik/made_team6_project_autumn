@@ -16,15 +16,32 @@ from application.main.utils import (
     raise_error,
     db_delete_item,
     db_get_all,
+    db_get_article_by_filters
 )
+from functools import reduce
 
 router = APIRouter(prefix="/article")
 # logger = logger_instance.get_logger(__name__)
 
 
 @router.get("/", response_model=ArticleListSchema)
-async def get_article_list(page: Union[int, None] = 0):
-    articles = db_get_all(db, Article)
+async def get_article_list(
+        page: Union[int, None] = 0,
+        year: Union[int, None] = None,
+        venue: Union[str, None] = None,
+        author: Union[str, None] = None,
+        topic: Union[str, None] = None
+):
+    cond = reduce(lambda x, y: x and y, [item is None for item in [year, venue, author, topic]])
+    if cond:
+        print("NO FILTERS")
+        articles = db_get_all(db, Article)
+    else:
+        articles = db_get_article_by_filters(db,
+                                             year,
+                                             venue,
+                                             author,
+                                             topic)
     output_list = []
     start_index = page * 10
     end_index = min(len(articles), start_index + 10)

@@ -5,7 +5,7 @@ from tqdm import tqdm
 from application.main.db_utils.json_reader import value_or_None, \
     publications_reader
 from application.main.models.models import Author, AuthorInArticle, \
-    Article, Venue, Publisher
+    Article, Venue
 
 
 def drop_all_tables():
@@ -16,7 +16,6 @@ def drop_all_tables():
             AuthorInArticle.__table__,
             Article.__table__,
             Venue.__table__,
-            Publisher.__table__,
         ]
     )
 
