@@ -2,7 +2,6 @@ from sqlalchemy.orm import Session
 from application.main.models.models import (
     Article,
     Venue,
-    Publisher,
     Author,
     Keyword,
     FieldOfScience,
@@ -13,24 +12,10 @@ from application.main.utils import db_get_one_or_none, raise_error
 
 def db_create_article(db: Session, article: ArticleSchema):
     venue = article.venue
-    publisher = article.publisher
     venue_old = db_get_one_or_none(db, Venue, "venue_id", venue.venue_id)
     if venue_old is None and venue is not None:
         venue_old = Venue(venue_id=venue.venue_id, name=venue.name)
         db.add(venue_old)
-    publisher_old = db_get_one_or_none(
-        db, Publisher, "publisher_id", publisher.publisher_id
-    )
-    if publisher_old is None and publisher is not None:
-        publisher_old = Publisher(
-            publisher_id=publisher.publisher_id,
-            issn=publisher.issn,
-            isbn=publisher.isbn,
-            doi=publisher.doi,
-            language=publisher.language,
-            volume=publisher.volume,
-        )
-        db.add(publisher_old)
     item = Article(
         id=article.id,
         title=article.title,
@@ -39,9 +24,9 @@ def db_create_article(db: Session, article: ArticleSchema):
         n_citation=article.n_citation,
         abstract=article.abstract,
         url=article.url,
-        publisher_id=publisher_old.publisher_id,
         page_start=article.page_start,
         page_end=article.page_end,
+        topic=article.topic
     )
     for author in article.authors:
         new_author = db_get_one_or_none(db, Author, "id", author.id)
@@ -92,16 +77,12 @@ def db_update_article(db: Session, item: Article, new_data: dict):
         item.url = new_data["url"]
     if "name" in new_data:
         item.name = new_data["name"]
-    if "publisher_id" in new_data:
-        id_ = new_data["publisher_id"]
-        publisher = db_get_one_or_none(db, Publisher, "publisher_id", id_)
-        if publisher is None:
-            raise_error(404, f"Publisher with id={id_} not found")
-        item.publisher_id = id_
     if "page_start" in new_data:
         item.page_start = new_data["page_start"]
     if "page_end" in new_data:
         item.page_end = new_data["page_end"]
+    if "topic" in new_data:
+        item.topic = new_data["topic"]
     db.commit()
     db.refresh(item)
     return item
