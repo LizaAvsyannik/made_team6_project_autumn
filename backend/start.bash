@@ -14,12 +14,13 @@ else
     gdown https://drive.google.com/uc?id=1lInIePvi6zQFyOCbsqW40w5jnUDLOfZu
 fi
 
-FILE=random_10k_from_first_200k.json
+
+FILE=topics.json
 if [ -f "$FILE" ]; then
     echo "$FILE exists."
 else
     echo "$FILE does not exist."
-    gdown https://drive.google.com/uc?id=1f3F0iG3sxpNG0Gu5ISj561H4nVifGVan
+    gdown https://drive.google.com/file/d/1_45SwnYu5U4bvYVMKzjeG1mx4BzypZ71/view?usp=sharing
 
 fi
 

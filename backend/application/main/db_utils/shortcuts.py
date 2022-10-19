@@ -1,3 +1,5 @@
+import json
+
 from sqlalchemy import MetaData
 from application.initializer import engine, get_db_and_base
 from tqdm import tqdm
@@ -20,10 +22,16 @@ def drop_all_tables():
     )
 
 
-def fill_db(filename: str, limit=10000):
+def fill_db(filename: str, use_generator, limit=100000):
     session = next(get_db_and_base())
-    reader = publications_reader(filename, limit=limit)
-    for entry in tqdm(reader):
+    if use_generator:
+        publications = publications_reader(filename, limit=limit)
+    else:
+        with open(filename) as file:
+            publications = json.load(file)
+    publications_added = 0
+    for entry in tqdm(publications):
+
 
         # add article
         article = Article(
@@ -35,9 +43,12 @@ def fill_db(filename: str, limit=10000):
             n_citation=value_or_None(entry, "n_citation"),
             page_start=value_or_None(entry, "page_start"),
             page_end=value_or_None(entry, "page_end"),
+            topic=value_or_None(entry, "topic")
         )
         session.add(article)
         session.commit()
+
+
 
         # add authors
         authors_dict = value_or_None(entry, "authors")
@@ -78,3 +89,6 @@ def fill_db(filename: str, limit=10000):
                 print(ex)
                 session.rollback()
                 continue
+        publications_added += 1
+        if publications_added > limit + 1:
+            break
