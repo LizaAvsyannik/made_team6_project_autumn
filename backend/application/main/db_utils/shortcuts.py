@@ -29,7 +29,9 @@ def fill_db(filename: str, use_generator, limit=100000):
     else:
         with open(filename) as file:
             publications = json.load(file)
+    publications_added = 0
     for entry in tqdm(publications):
+
 
         # add article
         article = Article(
@@ -45,6 +47,8 @@ def fill_db(filename: str, use_generator, limit=100000):
         )
         session.add(article)
         session.commit()
+
+
 
         # add authors
         authors_dict = value_or_None(entry, "authors")
@@ -85,3 +89,6 @@ def fill_db(filename: str, use_generator, limit=100000):
                 print(ex)
                 session.rollback()
                 continue
+        publications_added += 1
+        if publications_added > limit + 1:
+            break
