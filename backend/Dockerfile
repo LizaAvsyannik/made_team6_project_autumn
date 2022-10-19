@@ -4,7 +4,7 @@ RUN python -m pip install --upgrade pip
 WORKDIR /PROJECT_ROOT/backend
 # install requirements
 COPY requirements.txt .
-RUN pip3 install -r backend/requirements.txt
+RUN pip3 install -r requirements.txt
 
 # install jupyter lab
 RUN pip3 install jupyterlab
