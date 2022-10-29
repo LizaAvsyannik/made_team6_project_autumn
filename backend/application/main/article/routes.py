@@ -1,5 +1,5 @@
 from fastapi.routing import APIRouter
-from fastapi import Path, Depends
+from fastapi import Path, Depends, Request
 from typing import Union
 from .utils import db_create_article, db_update_article
 from .schemas import (
@@ -19,14 +19,17 @@ from application.main.utils import (
     db_get_article_by_filters
 )
 from functools import reduce
+from fastapi.templating import Jinja2Templates
+
+templates = Jinja2Templates(directory="application/templates")
 
 router = APIRouter(prefix="/article")
-# logger = logger_instance.get_logger(__name__)
 
 
 @router.get("/", response_model=ArticleListSchema)
 async def get_article_list(
-        page: Union[int, None] = 0,
+        request: Request,
+        page: Union[int, None] = 1,
         year: Union[int, None] = None,
         venue: Union[str, None] = None,
         author: Union[str, None] = None,
@@ -34,7 +37,6 @@ async def get_article_list(
 ):
     cond = reduce(lambda x, y: x and y, [item is None for item in [year, venue, author, topic]])
     if cond:
-        print("NO FILTERS")
         articles = db_get_all(db, Article)
     else:
         articles = db_get_article_by_filters(db,
@@ -43,21 +45,29 @@ async def get_article_list(
                                              author,
                                              topic)
     output_list = []
-    start_index = page * 10
+    start_index = (page - 1) * 10
     end_index = min(len(articles), start_index + 10)
     for index in range(start_index, end_index):
         output_list.append(articles[index])
-    return ArticleListSchema(articles=output_list)
+    max_page = len(articles) // 10 + 1
+    page_list = [i for i in range(max(1, page - 2), min(max_page + 1, page + 2))]
+    return templates.TemplateResponse(
+                "articles.html", {"request": request, "articles": output_list, "pages": page_list,
+                                  "cur_page": page}
+            )
 
 
 @router.get("/{article_id}", response_model=ArticleOutSchema)
 async def get_article_info(
-    article_id: str = Path(title="The ID of the article to get"),
+        request: Request,
+        article_id: str = Path(title="The ID of the article to get"),
 ):
     item = db_get_one_or_none(db, Article, "id", article_id)
     if item is None:
         raise_error(404, f"Article with id={article_id} not found")
-    return item
+    return templates.TemplateResponse(
+                    "article.html", {"request": request, "article": item}
+                )
 
 
 @router.post("/", response_model=ArticleOutSchema)

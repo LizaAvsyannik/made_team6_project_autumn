@@ -4,6 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from application.initializer import IncludeAPIRouter, engine
 from application.main.config import app_settings
 from application.main.models.models import Base
+from fastapi.staticfiles import StaticFiles
 
 
 def get_application():
@@ -12,6 +13,8 @@ def get_application():
         description=app_settings.APP_DESCRIPTION,
         version=app_settings.APP_VERSION,
     )
+    _app.mount("/static", StaticFiles(directory="application/static"), name="static")
+
     _app.include_router(IncludeAPIRouter())
     _app.add_middleware(
         CORSMiddleware,
