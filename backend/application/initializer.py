@@ -10,13 +10,15 @@ class IncludeAPIRouter(object):
         from application.main.author.routes import router as author_router
         from application.main.auth.routes import router as auth_router
         from application.main.user.routes import router as user_router
+        from application.main.index.routes import router as index_router
         from fastapi.routing import APIRouter
 
         router = APIRouter()
-        router.include_router(article_router, prefix="/api", tags=["article"])
-        router.include_router(author_router, prefix="/api", tags=["author"])
-        router.include_router(auth_router, prefix="/api", tags=["auth"])
-        router.include_router(user_router, prefix="/api", tags=["user"])
+        router.include_router(article_router, tags=["article"])
+        router.include_router(author_router, tags=["author"])
+        router.include_router(auth_router, tags=["auth"])
+        router.include_router(user_router, tags=["user"])
+        router.include_router(index_router, tags=["index"])
         return router
 
 

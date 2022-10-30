@@ -20,7 +20,7 @@ if [ -f "$FILE" ]; then
     echo "$FILE exists."
 else
     echo "$FILE does not exist."
-    gdown https://drive.google.com/file/d/1_45SwnYu5U4bvYVMKzjeG1mx4BzypZ71/view?usp=sharing
+    gdown gdown https://drive.google.com/u/0/uc?id=1_45SwnYu5U4bvYVMKzjeG1mx4BzypZ71
 
 fi
 

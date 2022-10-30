@@ -5,8 +5,10 @@ from application.main.models.models import User
 from application.main.utils import db_get_one_or_none
 from application.initializer import db
 from application.main.auth.jwt import create_access_token
+from fastapi.templating import Jinja2Templates
 
 router = APIRouter(prefix="/auth")
+templates = Jinja2Templates(directory="templates")
 
 
 @router.post("/login")

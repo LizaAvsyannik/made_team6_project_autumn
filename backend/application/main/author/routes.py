@@ -9,34 +9,44 @@ from application.main.utils import (
     db_get_all,
     db_delete_item,
 )
-from fastapi import Path, Depends
+from fastapi import Path, Depends, Request
 from application.initializer import db
 from application.main.auth.jwt import get_current_user
+from fastapi.templating import Jinja2Templates
 
+templates = Jinja2Templates(directory="application/templates")
 
 router = APIRouter(prefix="/author")
 # logger = logger_instance.get_logger(__name__)
 
 
 @router.get("/")
-async def get_author_list(page: Union[int, None] = 0):
+async def get_author_list(request: Request, page: Union[int, None] = 1):
     authors = db_get_all(db, Author)
     output_list = []
-    start_index = page * 10
+    start_index = (page - 1) * 10
     end_index = min(len(authors), start_index + 10)
     for index in range(start_index, end_index):
         output_list.append(authors[index])
-    return AuthorsListSchema(authors=output_list)
+    max_page = len(authors) // 10 + 1
+    page_list = [i for i in range(max(1, page - 2), min(max_page + 1, page + 2))]
+    return templates.TemplateResponse(
+                "authors.html", {"request": request, "authors": output_list, "pages": page_list,
+                                  "cur_page": page}
+            )
 
 
 @router.get("/{author_id}", response_model=AuthorSchema)
 async def get_author_info(
+        request: Request,
         author_id: str = Path(title="The ID of the author to get")
 ):
     item = db_get_one_or_none(db, Author, "id", author_id)
     if item is None:
         raise_error(404, f"Author with id={author_id} not found")
-    return item
+    return templates.TemplateResponse(
+                    "author.html", {"request": request, "author": item}
+                )
 
 
 @router.post("/", response_model=AuthorSchema)
