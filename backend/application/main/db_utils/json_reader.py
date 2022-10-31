@@ -1,6 +1,6 @@
 import json
-import re
 import math
+import re
 
 
 def publications_reader(file, limit=None):

@@ -1,68 +1,72 @@
 <!doctype html>
 <html lang="en">
-  <head>
+<head>
 
-  <link href="{{ url_for('static', path='/css/font.min.css') }}" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
-  <link href="{{ url_for('static', path='/css/articles.css') }}" rel="stylesheet">
-  <link href="{{ url_for('static', path='/css/cover_articles.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', path='/css/font.min.css') }}" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <link href="{{ url_for('static', path='/css/articles.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', path='/css/cover_articles.css') }}" rel="stylesheet">
 
     <style>
-      .nav-scroller .nav {
-        display: flex;
-        flex-wrap: nowrap;
-        padding-bottom: 1rem;
-        margin-top: -1px;
-        overflow-x: auto;
-        text-align: center;
-        white-space: nowrap;
-        -webkit-overflow-scrolling: touch;
-      }
+        .nav-scroller .nav {
+            display: flex;
+            flex-wrap: nowrap;
+            padding-bottom: 1rem;
+            margin-top: -1px;
+            overflow-x: auto;
+            text-align: center;
+            white-space: nowrap;
+            -webkit-overflow-scrolling: touch;
+        }
     </style>
-  </head>
-  <body class=" d-flex h-100 text-bg-secondary" >
-    <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+</head>
+<body class=" d-flex h-100 text-bg-secondary">
+<div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
 
     <header class="mb-auto">
-    <div>
-      <h3 class="float-md-start mb-0">MADE Group Project</h3>
-      <nav class="nav nav-masthead justify-content-center float-md-end">
-        <a class="nav-link fw-bold py-1 px-0" href="http://localhost:8000/">Home</a>
-        <a class="nav-link fw-bold py-1 px-0" href="http://localhost:8000/article">Articles</a>
-        <a class="nav-link fw-bold py-1 px-0 active" aria-current="page" href="http://localhost:8000/author">Authors</a>
-      </nav>
-    </div>
-  </header>
+        <div>
+            <h3 class="float-md-start mb-0">MADE Group Project</h3>
+            <nav class="nav nav-masthead justify-content-center float-md-end">
+                <a class="nav-link fw-bold py-1 px-0" href="http://localhost:8000/">Home</a>
+                <a class="nav-link fw-bold py-1 px-0" href="http://localhost:8000/article">Articles</a>
+                <a class="nav-link fw-bold py-1 px-0 active" aria-current="page" href="http://localhost:8000/author">Authors</a>
+            </nav>
+        </div>
+    </header>
 
-<div class="list-group w-auto">
-  {% for author in authors %}
-  <a href="http://localhost:8000/author/{{ author.id }}" class="list-group-item list-group-item-action d-flex gap-3 w-100 py-3" aria-current="true">
-    <div class="d-flex gap-2 w-100 justify-content-between">
-      <div>
-        <h4 class="mb-1 text-primary"> {{author.name}} </h4>
-        <p class="mb-0 opacity-75">{{author.bio}}</p>
-        <h6 class="mb-0"> {{author.email}} </h6>
-      </div>
-    </div>
-  </a>
-  {% endfor %}
-  <div>
-  <footer class="mt-auto text-white-100">
-    {% for page in pages %}
+    <div class="list-group w-auto">
+        {% for author in authors %}
+        <a href="http://localhost:8000/author/{{ author.id }}"
+           class="list-group-item list-group-item-action d-flex gap-3 w-100 py-3" aria-current="true">
+            <div class="d-flex gap-2 w-100 justify-content-between">
+                <div>
+                    <h4 class="mb-1 text-primary"> {{author.name}} </h4>
+                    <p class="mb-0 opacity-75">{{author.bio}}</p>
+                    <h6 class="mb-0"> {{author.email}} </h6>
+                </div>
+            </div>
+        </a>
+        {% endfor %}
+        <div>
+            <footer class="mt-auto text-white-100">
+                {% for page in pages %}
 
-    <p>
-    <a href="http://localhost:8000/author/?page={{ page }}" class="list-group-item list-group-item-action d-flex gap-3 w-100 py-3" aria-current="true">
-      {{ page }}
-    </a>
-    </p>
-      {% endfor %}
-  </footer>
+                <p>
+                    <a href="http://localhost:8000/author/?page={{ page }}"
+                       class="list-group-item list-group-item-action d-flex gap-3 w-100 py-3" aria-current="true">
+                        {{ page }}
+                    </a>
+                </p>
+                {% endfor %}
+            </footer>
+        </div>
+        <footer class="mt-auto text-white-100">
+            <p class=" text-center"> &copy MADE 6th Team.
+                <a href="https://github.com/LizaAvsyannik/made_team6_project_autumn" class="text-white-100">GitHub</a>
+            </p>
+        </footer>
     </div>
-    <footer class="mt-auto text-white-100">
-    <p class=" text-center"> &copy  MADE 6th Team.
-      <a href="https://github.com/LizaAvsyannik/made_team6_project_autumn" class="text-white-100">GitHub</a></p>
-  </footer>
 </div>
-    </div>
 </body>
 </html>

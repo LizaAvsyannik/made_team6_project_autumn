@@ -3,8 +3,8 @@ from datetime import datetime, timedelta
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError, jwt
-from application.main.auth.schema import TokenData
 
+from application.main.auth.schema import TokenData
 
 SECRET_KEY = "1646fb9ed18d3385de9ebbb12d229d63247c682bc00bccd86be151d482ae1fd4"
 ALGORITHM = "HS256"

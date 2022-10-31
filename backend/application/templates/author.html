@@ -1,77 +1,79 @@
 <!doctype html>
 <html lang="en">
-  <head>
+<head>
     <link href="{{ url_for('static', path='/css/font.min.css') }}" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
     <link href="{{ url_for('static', path='/css/articles.css') }}" rel="stylesheet">
     <link href="{{ url_for('static', path='/css/cover_articles.css') }}" rel="stylesheet">
     <style>
 
-      .nav-scroller .nav {
-        display: flex;
-        flex-wrap: nowrap;
-        padding-bottom: 1rem;
-        margin-top: -1px;
-        overflow-x: auto;
-        text-align: center;
-        white-space: nowrap;
-        -webkit-overflow-scrolling: touch;
-      }
+        .nav-scroller .nav {
+            display: flex;
+            flex-wrap: nowrap;
+            padding-bottom: 1rem;
+            margin-top: -1px;
+            overflow-x: auto;
+            text-align: center;
+            white-space: nowrap;
+            -webkit-overflow-scrolling: touch;
+        }
 
-      /* unvisited link */
-      a:link {
-        color: black;
-      }
+        /* unvisited link */
+        a:link {
+            color: black;
+        }
 
-      /* visited link */
-      a:visited {
-        color: black;
-      }
+        /* visited link */
+        a:visited {
+            color: black;
+        }
 
-      /* mouse over link */
-      a:hover {
-        color: cornflowerblue;
-      }
+        /* mouse over link */
+        a:hover {
+            color: cornflowerblue;
+        }
 
-      /* selected link */
-      a:active {
-        color: black;
-      }
+        /* selected link */
+        a:active {
+            color: black;
+        }
     </style>
 
 
-  </head>
-  <body class="h-100 text-bg-secondary">
-  <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
- <header class="mb-auto">
-    <div>
-      <h3 class="float-md-start mb-0">MADE Group Project</h3>
-      <nav class="nav nav-masthead justify-content-center float-md-end">
-        <a class="nav-link fw-bold py-1 px-0" href="http://localhost:8000/">Home</a>
-        <a class="nav-link fw-bold py-1 px-0" href="http://localhost:8000/article">Articles</a>
-        <a class="nav-link fw-bold py-1 px-0 active" aria-current="page" href="http://localhost:8000/author">Authors</a>
-      </nav>
-    </div>
-  </header>
-  </div>
+</head>
+<body class="h-100 text-bg-secondary">
+<div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+    <header class="mb-auto">
+        <div>
+            <h3 class="float-md-start mb-0">MADE Group Project</h3>
+            <nav class="nav nav-masthead justify-content-center float-md-end">
+                <a class="nav-link fw-bold py-1 px-0" href="http://localhost:8000/">Home</a>
+                <a class="nav-link fw-bold py-1 px-0" href="http://localhost:8000/article">Articles</a>
+                <a class="nav-link fw-bold py-1 px-0 active" aria-current="page" href="http://localhost:8000/author">Authors</a>
+            </nav>
+        </div>
+    </header>
+</div>
 <main>
-  <div class="container py-4">
+    <div class="container py-4">
 
-    <div class="p-5 mb-4 bg-light rounded-3 text-dark">
-      <div class="container-fluid py-5">
-        <h1 class="display-5 fw-bold"> {{author.name}} </h1>
-        <h5>
-          - {{author.email}}
-        </h5>
-        <h3> BIO</h3>
-        <p class="col-lg-8 fs-5 ma-1"> {{author.bio}} </p>
-      </div>
-    </div>
+        <div class="p-5 mb-4 bg-light rounded-3 text-dark">
+            <div class="container-fluid py-5">
+                <h1 class="display-5 fw-bold"> {{author.name}} </h1>
+                <h5>
+                    - {{author.email}}
+                </h5>
+                <h3> BIO</h3>
+                <p class="col-lg-8 fs-5 ma-1"> {{author.bio}} </p>
+            </div>
+        </div>
 
-    <footer class="mt-auto text-white-100">
-    <p class="text-center"> &copy  MADE 6th Team.
-      <a href="https://github.com/LizaAvsyannik/made_team6_project_autumn" class="text-white-100">GitHub</a></p>
-    </footer>
-  </main>
-  </body>
+        <footer class="mt-auto text-white-100">
+            <p class="text-center"> &copy MADE 6th Team.
+                <a href="https://github.com/LizaAvsyannik/made_team6_project_autumn" class="text-white-100">GitHub</a>
+            </p>
+        </footer>
+</main>
+</body>
 </html>

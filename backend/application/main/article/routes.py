@@ -1,16 +1,13 @@
-from fastapi.routing import APIRouter
-from fastapi import Path, Depends, Request
+from functools import reduce
 from typing import Union
-from .utils import db_create_article, db_update_article
-from .schemas import (
-    ArticleSchema,
-    ArticleListSchema,
-    ArticlePatchSchema,
-    ArticleOutSchema,
-)
-from application.main.models.models import Article, User
-from application.main.auth.jwt import get_current_user
+
+from fastapi import Path, Depends, Request
+from fastapi.routing import APIRouter
+from fastapi.templating import Jinja2Templates
+
 from application.initializer import db
+from application.main.auth.jwt import get_current_user
+from application.main.models.models import Article, User
 from application.main.utils import (
     db_get_one_or_none,
     raise_error,
@@ -18,8 +15,13 @@ from application.main.utils import (
     db_get_all,
     db_get_article_by_filters
 )
-from functools import reduce
-from fastapi.templating import Jinja2Templates
+from .schemas import (
+    ArticleSchema,
+    ArticleListSchema,
+    ArticlePatchSchema,
+    ArticleOutSchema,
+)
+from .utils import db_create_article, db_update_article
 
 templates = Jinja2Templates(directory="application/templates")
 
@@ -39,11 +41,13 @@ async def get_article_list(
     if cond:
         articles = db_get_all(db, Article)
     else:
-        articles = db_get_article_by_filters(db,
-                                             year,
-                                             venue,
-                                             author,
-                                             topic)
+        articles = db_get_article_by_filters(
+            db,
+            year,
+            venue,
+            author,
+            topic
+            )
     output_list = []
     start_index = (page - 1) * 10
     end_index = min(len(articles), start_index + 10)
@@ -52,9 +56,9 @@ async def get_article_list(
     max_page = len(articles) // 10 + 1
     page_list = [i for i in range(max(1, page - 2), min(max_page + 1, page + 2))]
     return templates.TemplateResponse(
-                "articles.html", {"request": request, "articles": output_list, "pages": page_list,
-                                  "cur_page": page}
-            )
+        "articles.html", {"request": request, "articles": output_list, "pages": page_list,
+                          "cur_page": page}
+    )
 
 
 @router.get("/{article_id}", response_model=ArticleOutSchema)
@@ -66,8 +70,8 @@ async def get_article_info(
     if item is None:
         raise_error(404, f"Article with id={article_id} not found")
     return templates.TemplateResponse(
-                    "article.html", {"request": request, "article": item}
-                )
+        "article.html", {"request": request, "article": item}
+    )
 
 
 @router.post("/", response_model=ArticleOutSchema)
@@ -79,9 +83,9 @@ async def create_new_article(item: ArticleSchema):
 
 @router.patch("/{article_id}", response_model=ArticleOutSchema)
 async def modify_article(
-    upd_item: ArticlePatchSchema,
-    article_id: str = Path(title="The ID of the article to patch"),
-    current_user: User = Depends(get_current_user),
+        upd_item: ArticlePatchSchema,
+        article_id: str = Path(title="The ID of the article to patch"),
+        current_user: User = Depends(get_current_user),
 ):
     item = db_get_one_or_none(db, Article, "id", article_id)
     if item is None:
@@ -92,8 +96,8 @@ async def modify_article(
 
 @router.delete("/{article_id}", response_model=ArticleOutSchema)
 async def delete_article(
-    article_id: str = Path(title="The ID of the article to delete"),
-    current_user: User = Depends(get_current_user),
+        article_id: str = Path(title="The ID of the article to delete"),
+        current_user: User = Depends(get_current_user),
 ):
     item = db_get_one_or_none(db, Article, "id", article_id)
     if item is None:

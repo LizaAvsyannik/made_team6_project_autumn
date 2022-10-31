@@ -1,83 +1,92 @@
 .list-group {
-  margin-top:10px;
-  margin-left: 10px;
-  margin-right: 10px;
-  margin-bottom: 10px;
+    margin-top: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-bottom: 10px;
 }
 
 .form-check-input:checked + .form-checked-content {
-  opacity: .5;
+    opacity: .5;
 }
 
 .form-check-input-placeholder {
-  border-style: dashed;
+    border-style: dashed;
 }
+
 [contenteditable]:focus {
-  outline: 0;
+    outline: 0;
 }
 
 .list-group-checkable .list-group-item {
-  cursor: pointer;
+    cursor: pointer;
 }
+
 .list-group-item-check {
-  position: absolute;
-  clip: rect(0, 0, 0, 0);
+    position: absolute;
+    clip: rect(0, 0, 0, 0);
 }
+
 .list-group-item-check:hover + .list-group-item {
-  background-color: var(--bs-light);
+    background-color: var(--bs-light);
 }
+
 .list-group-item-check:checked + .list-group-item {
-  color: #000;
-  background-color: var(--bs-blue);
+    color: #000;
+    background-color: var(--bs-blue);
 }
+
 .list-group-item-check[disabled] + .list-group-item,
 .list-group-item-check:disabled + .list-group-item {
-  pointer-events: none;
-  filter: none;
-  opacity: .5;
+    pointer-events: none;
+    filter: none;
+    opacity: .5;
 }
 
 .list-group-radio .list-group-item {
-  cursor: pointer;
-  border-radius: .5rem;
+    cursor: pointer;
+    border-radius: .5rem;
 }
+
 .list-group-radio .form-check-input {
-  z-index: 2;
-  margin-top: -.5em;
+    z-index: 2;
+    margin-top: -.5em;
 }
+
 .list-group-radio .list-group-item:hover,
 .list-group-radio .list-group-item:focus {
-  background-color: var(--bs-light);
+    background-color: var(--bs-light);
 }
 
 .list-group-radio .form-check-input:checked + .list-group-item {
-  background-color: var(--bs-body);
-  border-color: var(--bs-blue);
-  box-shadow: 0 0 0 2px var(--bs-blue);
+    background-color: var(--bs-body);
+    border-color: var(--bs-blue);
+    box-shadow: 0 0 0 2px var(--bs-blue);
 }
+
 .list-group-radio .form-check-input[disabled] + .list-group-item,
 .list-group-radio .form-check-input:disabled + .list-group-item {
-  pointer-events: none;
-  filter: none;
-  opacity: .5;
+    pointer-events: none;
+    filter: none;
+    opacity: .5;
 }
+
 /* unvisited link */
 a:link {
-  color: black;
+    color: black;
 }
 
 /* visited link */
 a:visited {
-  color: black;
+    color: black;
 }
 
 /* mouse over link */
 a:hover {
-  color: cornflowerblue;
+    color: cornflowerblue;
 }
 
 /* selected link */
 a:active {
-  color: black;
+    color: black;
 }
 

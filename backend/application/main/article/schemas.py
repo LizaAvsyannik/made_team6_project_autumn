@@ -1,6 +1,8 @@
 from typing import Union, List
-from application.main.author.schemas import AuthorSchema
+
 from pydantic import BaseModel
+
+from application.main.author.schemas import AuthorSchema
 
 
 class VenueSchema(BaseModel):

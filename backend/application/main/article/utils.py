@@ -1,4 +1,5 @@
 from sqlalchemy.orm import Session
+
 from application.main.models.models import (
     Article,
     Venue,
@@ -6,8 +7,8 @@ from application.main.models.models import (
     Keyword,
     FieldOfScience,
 )
-from .schemas import ArticleSchema
 from application.main.utils import db_get_one_or_none, raise_error
+from .schemas import ArticleSchema
 
 
 def db_create_article(db: Session, article: ArticleSchema):

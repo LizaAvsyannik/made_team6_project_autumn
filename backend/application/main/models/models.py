@@ -141,7 +141,7 @@ class Article(Base):
     )
 
     def __repr__(self):
-        return f'{self.id} {self.title} \n {str(self.authors) } \n {str(self.keywords) } \n {str(self.fos)}'
+        return f'{self.id} {self.title} \n {str(self.authors)} \n {str(self.keywords)} \n {str(self.fos)}'
 
 
 class User(Base):
