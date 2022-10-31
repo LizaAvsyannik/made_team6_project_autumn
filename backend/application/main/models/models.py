@@ -37,6 +37,9 @@ class Author(Base):
         back_populates="authors"
     )
 
+    def __repr__(self):
+        return f'{self.id} {self.name}'
+
 
 class ArticleReference(Base):
     __tablename__ = "article_reference"
@@ -77,6 +80,9 @@ class Keyword(Base):
         back_populates="keywords"
     )
 
+    def __repr__(self):
+        return f'{self.keyword_id} {self.name}'
+
 
 class FieldOfScience(Base):
     __tablename__ = "field_of_study"
@@ -87,6 +93,9 @@ class FieldOfScience(Base):
         secondary=FosInArticle.__table__,
         back_populates="fos"
     )
+
+    def __repr__(self):
+        return f'{self.fos_id} {self.name}'
 
 
 # class Organisation(Base):
@@ -130,6 +139,9 @@ class Article(Base):
         "Venue",
         back_populates="articles"
     )
+
+    def __repr__(self):
+        return f'{self.id} {self.title} \n {str(self.authors) } \n {str(self.keywords) } \n {str(self.fos)}'
 
 
 class User(Base):
