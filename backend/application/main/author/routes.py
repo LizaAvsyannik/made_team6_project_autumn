@@ -3,7 +3,6 @@ from typing import Union
 from fastapi import Path, Depends, Request
 from fastapi.routing import APIRouter
 from fastapi.templating import Jinja2Templates
-
 from application.initializer import db
 from application.main.auth.jwt import get_current_user
 from application.main.models.models import Author, User
