@@ -1,0 +1,3 @@
+*.index
+embeddings/*.pkl
+oagbert-v2/
