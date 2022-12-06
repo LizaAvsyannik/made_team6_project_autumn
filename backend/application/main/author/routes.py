@@ -1,4 +1,7 @@
 from typing import Union
+import os
+import pickle
+import faiss
 
 from fastapi import Path, Depends, Request
 from fastapi.routing import APIRouter
@@ -19,6 +22,23 @@ templates = Jinja2Templates(directory="application/templates")
 
 router = APIRouter(prefix="/author")
 
+
+path_start = os.getcwd()
+print("Reading idx2author")
+with open(os.path.join(path_start, 'source_for_models', 'idx2author.pkl'), 'rb') as f:
+    idx2author = pickle.load(f)
+
+print("Reading author2idx")
+with open(os.path.join(path_start, 'source_for_models', 'author2idx.pkl'), 'rb') as f:
+    author2idx = pickle.load(f)
+
+# load embeddings
+print("Reading embeddings for author")
+with open(os.path.join(path_start, 'source_for_models', 'authors.pkl'), 'rb') as f:
+    author_embedding = pickle.load(f)
+print("Reading index for author")
+index = faiss.read_index(os.path.join(path_start, 'source_for_models', 'author.index'))
+print("Finished reading for author")
 
 # logger = logger_instance.get_logger(__name__)
 
@@ -47,8 +67,25 @@ async def get_author_info(
     item = db_get_one_or_none(db, Author, "id", author_id)
     if item is None:
         raise_error(404, f"Author with id={author_id} not found")
+    topn = 5
+    index.nprobe = 10  # number of clusters to search
+    try:
+        idx = author2idx[item.name]
+        embedding = author_embedding[idx].unsqueeze(0).numpy()
+        faiss.normalize_L2(embedding)
+        _, items = index.search(embedding, topn)
+        result = [idx2author[rec] for rec in items[0][1:]]
+        print(result)
+        result = [
+            db_get_one_or_none(db, Author, "name", elem)
+            for elem in result
+        ]
+        print(result)
+    except KeyError:
+        print('Author not in index')
+        result = []
     return templates.TemplateResponse(
-        "author.html", {"request": request, "author": item}
+        "author.html", {"request": request, "author": item, "rec_for_author": result}
     )
 
 

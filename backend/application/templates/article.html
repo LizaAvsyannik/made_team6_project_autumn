@@ -90,6 +90,16 @@
                     <strong>Topic: </strong>
                     {{article.topic}}
                 </p>
+                 <p class="fw-normal">
+                    <strong>Recommended articles: </strong>
+                    {% for rec_article in rec_for_article %}
+                    <a href="http://localhost:8000/article/{{ rec_article.id }}"
+                       class="list-group-item list-group-item-action d-flex gap-3 w-100 py-3" aria-current="true">
+                        {{ rec_article.title }}
+                    </a>
+                    {% if not loop.last %}, {% endif %}
+                    {% endfor %}
+                </p>
             </div>
         </div>
     </div>
