@@ -117,8 +117,11 @@ def fill_db(filename: str, use_generator, limit=100000):
     else:
         with open(filename) as file:
             publications = json.load(file)[:limit]
-    for entry in tqdm(publications):
+    for i in tqdm(range(limit)):
+        entry = publications[i]
         add_article(session, entry)
         add_authors(session, entry)
         add_keywords(session, entry)
         add_fos(session, entry)
+        if i % 1000 == 0:
+            print(f'{i} / {limit}')

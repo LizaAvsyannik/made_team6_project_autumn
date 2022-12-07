@@ -67,7 +67,7 @@
                     {% endfor %}
                 </h5>
                 <h5>
-                    - {{article.venue.name}}, {{article.year}}
+                    - {{article.year}}
                 </h5>
                 <h3> Abstract</h3>
                 <p class="col-lg-8 fs-5 ma-1"> {{article.abstract}} </p>
@@ -90,6 +90,17 @@
                     <strong>Topic: </strong>
                     {{article.topic}}
                 </p>
+                {% if rec_for_article|length > 0 %}
+                 <p class="fw-normal">
+                    <strong>Recommended articles: </strong>
+                    {% for rec_article in rec_for_article %}
+                    <a href="http://localhost:8000/article/{{ rec_article.id }}"
+                       class="list-group-item list-group-item-action d-flex gap-3 w-100 py-3" aria-current="true">
+                        {{ rec_article.title }}
+                    </a>
+                    {% endfor %}
+                </p>
+                {% endif %}
             </div>
         </div>
     </div>

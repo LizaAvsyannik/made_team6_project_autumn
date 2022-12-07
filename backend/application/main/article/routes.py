@@ -1,5 +1,8 @@
 from functools import reduce
 from typing import Union
+import os
+import pickle
+import faiss
 
 from fastapi import Path, Depends, Request
 from fastapi.routing import APIRouter
@@ -26,6 +29,17 @@ from .utils import db_create_article, db_update_article
 templates = Jinja2Templates(directory="application/templates")
 
 router = APIRouter(prefix="/article")
+
+
+path_start = os.getcwd()
+
+# load embeddings
+print("Reading embeddings for article")
+with open(os.path.join(path_start, 'source_for_models', 'papers.pkl'), 'rb') as f:
+    paper_embeddings = pickle.load(f)
+print("Reading index for article")
+index = faiss.read_index(os.path.join(path_start, 'source_for_models', 'paper.index'))
+print("Finished reading for article")
 
 
 @router.get("/", response_model=ArticleListSchema)
@@ -69,8 +83,31 @@ async def get_article_info(
     item = db_get_one_or_none(db, Article, "id", article_id)
     if item is None:
         raise_error(404, f"Article with id={article_id} not found")
+    topn = 30
+    index.nprobe = 10  # number of clusters to search
+
+    try:
+        embedding = paper_embeddings[article_id].unsqueeze(0).numpy()
+        faiss.normalize_L2(embedding)
+        _, items = index.search(embedding, topn)
+
+        res_id = []
+        for rec in items[0]:  # as first is always the same author
+            id = list(paper_embeddings.keys())[rec]
+            res_id.append(id)
+        print(res_id)
+        result = [
+            db_get_one_or_none(db, Article, "id", elem)
+            for elem in res_id[1:]
+        ]
+        result = [
+            elem for elem in result if elem is not None
+        ]
+    except KeyError:
+        print('Article not in index')
+        result = []
     return templates.TemplateResponse(
-        "article.html", {"request": request, "article": item}
+        "article.html", {"request": request, "article": item, "rec_for_article": result[:5]}
     )
 
 

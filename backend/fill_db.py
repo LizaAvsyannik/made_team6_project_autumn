@@ -12,7 +12,7 @@ logger.info("This is test")
 if session.query(Article).first() is None:
     session.close()
     print("Creating database...")
-    fill_db(Config.DB_SOURCE_FILE, use_generator=False, limit=500)
+    fill_db(Config.DB_SOURCE_FILE, use_generator=False, limit=10_000)
 else:
     print("Database already exists")
     session.close()
