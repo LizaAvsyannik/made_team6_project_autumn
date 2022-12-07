@@ -98,13 +98,6 @@ class FieldOfScience(Base):
         return f'{self.fos_id} {self.name}'
 
 
-# class Organisation(Base):
-#     __tablename__ = "organisation"
-#
-#     organisation_id = Column(Integer, primary_key=True, index=True)
-#     name = Column(String, nullable=False, unique=True)
-
-
 class Article(Base):
     __tablename__ = "article"
 

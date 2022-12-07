@@ -83,7 +83,7 @@ async def get_article_info(
     item = db_get_one_or_none(db, Article, "id", article_id)
     if item is None:
         raise_error(404, f"Article with id={article_id} not found")
-    topn = 5
+    topn = 30
     index.nprobe = 10  # number of clusters to search
 
     try:
@@ -100,12 +100,14 @@ async def get_article_info(
             db_get_one_or_none(db, Article, "id", elem)
             for elem in res_id[1:]
         ]
-        print(result)
+        result = [
+            elem for elem in result if elem is not None
+        ]
     except KeyError:
-        print('Author not in index')
+        print('Article not in index')
         result = []
     return templates.TemplateResponse(
-        "article.html", {"request": request, "article": item, "rec_for_article": result}
+        "article.html", {"request": request, "article": item, "rec_for_article": result[:5]}
     )
 
 

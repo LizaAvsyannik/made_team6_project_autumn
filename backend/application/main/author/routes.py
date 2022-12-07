@@ -67,7 +67,7 @@ async def get_author_info(
     item = db_get_one_or_none(db, Author, "id", author_id)
     if item is None:
         raise_error(404, f"Author with id={author_id} not found")
-    topn = 5
+    topn = 30
     index.nprobe = 10  # number of clusters to search
     try:
         idx = author2idx[item.name]
@@ -80,12 +80,14 @@ async def get_author_info(
             db_get_one_or_none(db, Author, "name", elem)
             for elem in result
         ]
-        print(result)
+        result = [
+            elem for elem in result if elem is not None
+        ]
     except KeyError:
         print('Author not in index')
         result = []
     return templates.TemplateResponse(
-        "author.html", {"request": request, "author": item, "rec_for_author": result}
+        "author.html", {"request": request, "author": item, "rec_for_author": result[:5]}
     )
 
 
