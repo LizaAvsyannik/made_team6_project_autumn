@@ -25,7 +25,11 @@ def db_delete_item(db, item):
 
 def db_get_article_by_filters(db, year=None, venue=None, author=None, topic=None):
     from application.main.models.models import Article, Author, Venue
-    query = db.query(Article).join(Article.authors).join(Article.venue)
+    query = db.query(Article)
+    if author is not None:
+        query = query.join(Article.authors)
+    if venue is not None:
+        query = query.join(Article.venue)
     if venue is not None:
         query = query.filter(Venue.name == venue)
     if author is not None:
